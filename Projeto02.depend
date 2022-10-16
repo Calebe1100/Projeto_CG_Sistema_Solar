@@ -4,10 +4,10 @@
 	<GL/glut.h>
 	<stdlib.h>
 
-1426360528 c:\program files\codeblocks\mingw\x86_64-w64-mingw32\include\gl\glut.h
+1661536930 c:\program files\codeblocks\mingw\x86_64-w64-mingw32\include\gl\glut.h
 	"freeglut_std.h"
 
-1426360528 c:\program files\codeblocks\mingw\x86_64-w64-mingw32\include\gl\freeglut_std.h
+1661536930 c:\program files\codeblocks\mingw\x86_64-w64-mingw32\include\gl\freeglut_std.h
 	<windows.h>
 	<EGL/egl.h>
 	<GLES/gl.h>
@@ -885,6 +885,13 @@
 	<crtdefs.h>
 
 1665515096 source:c:\users\fernando henrique\desktop\trabalho-cg\main.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<math.h>
+	<vector>
+
+1665749111 source:c:\users\vertown\documents\eng_comp\oitavo semestre\comp graf\trabalho-cg\main.cpp
 	<GLUT/glut.h>
 	<GL/glut.h>
 	<stdlib.h>
