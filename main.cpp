@@ -51,6 +51,13 @@ GLfloat velRotSaturno;
 GLfloat velRotUrano;
 GLfloat velRotNetuno;
 
+// Vari�veis que guardam os valores dos diâmetros dos planetas
+GLfloat diametroSol = 5, diametroMercurio = 0.5, diametroVenus = 0.6, diametroTerra = 0.8, diametroMarte = 0.5, diametroJupiter = 1.5, diametroSaturno = 1.4, diametroUrano = 1.3, diametroNeturno = 1.3;
+
+// Variavel que gerencia o estado de exibir na tela ou não
+GLboolean exibirSol= true, exibirSaturno = true, exibirVenus = true, exibirMercurio = true, exibirTerra = true, exibirMarte = true, exibirJupter = true, exibirUrano = true, exibirNeturno = true;
+
+
 // Vari�veis que guardam os valores m�nimos de x e y da
 // casinha
 GLfloat minX, maxX;
@@ -164,7 +171,9 @@ void Desenha(void)
     int qntOrbitas = 0;
     int qntSatelites = 0;
     int posicao = 0;
-    desenhaPlaneta(5, x, qntOrbitas, qntSatelites, posicao);
+    if(exibirSol){
+        desenhaPlaneta(diametroSol, x, qntOrbitas, qntSatelites, posicao);
+    }
 
 // Mercurio
     glPushMatrix();
@@ -174,7 +183,10 @@ void Desenha(void)
 
 
     double x2[] = {0.929f, 0.49f, 0.192f};
-    desenhaPlaneta(0.5, x2, 0, 0, 0);
+    if(exibirMercurio){
+        desenhaPlaneta(diametroMercurio, x2, 0, 0, 0);
+    }
+
     glPopMatrix();
 
 // Vênus
@@ -185,8 +197,10 @@ void Desenha(void)
 
 
     double x3[] = {133.0/255.0f, 60.0/255.0f, 12.0/255.0f};
+    if(exibirVenus){
+        desenhaPlaneta(diametroVenus, x3, 0, 0, 0);
+    }
 
-    desenhaPlaneta(0.6, x3, 0, 0, 0);
     glPopMatrix();
 
 // Terra
@@ -197,7 +211,10 @@ void Desenha(void)
 
 
     double x4[] = {0.0f, 112.0/255.0f, 192.0/255.0f};
-    desenhaPlaneta(0.8, x4, 0, 1, 0);
+    if(exibirTerra){
+        desenhaPlaneta(diametroTerra, x4, 0, 1, 0);
+    }
+
     glPopMatrix();
 
 // Marte
@@ -208,7 +225,10 @@ void Desenha(void)
 
 
     double x5[] = {1.0f, 0.0f, 0.0f};
-    desenhaPlaneta(0.5, x5, 0, 2, 0);
+    if(exibirMarte){
+         desenhaPlaneta(0.5, x5, 0, 2, 0);
+    }
+
     glPopMatrix();
 
 // Júpter
@@ -219,7 +239,10 @@ void Desenha(void)
 
 
     double x6[] = {1.0f, 192.0/255.0f, 0.0f};
-    desenhaPlaneta(1.5, x6, 1, 1, 0);
+    if(exibirJupter){
+        desenhaPlaneta(diametroJupiter, x6, 1, 1, 0);
+    }
+
     glPopMatrix();
 
 // Saturno
@@ -230,8 +253,11 @@ void Desenha(void)
 
 
     double x7[] = {191.0/255.0f, 144.0/255.0f, 0.0f};
-    desenhaPlaneta(1.4, x7, 4, 1, 0);
+    if(exibirSaturno){
+        desenhaPlaneta(diametroSaturno, x7, 4, 1, 0);
+    }
     glPopMatrix();
+
 
 // Urano
     glPushMatrix();
@@ -241,7 +267,10 @@ void Desenha(void)
 
 
     double x8[] = {84.0/255.0f, 130.0/255.0f, 53.0/255.0f};
-    desenhaPlaneta(1.3, x8, 2, 1, 0);
+    if(exibirUrano){
+        desenhaPlaneta(diametroUrano, x8, 2, 1, 0);
+    }
+
     glPopMatrix();
 
 // Netuno
@@ -252,7 +281,10 @@ void Desenha(void)
 
 
     double x9[] = {180.0/255.0f, 199.0/255.0f, 231.0/255.0f};
-    desenhaPlaneta(1.3, x9, 1, 2, 0);
+    if(exibirNeturno){
+        desenhaPlaneta(diametroNeturno, x9, 1, 2, 0);
+    }
+
     glPopMatrix();
 
     // Executa os comandos OpenGL
@@ -338,11 +370,51 @@ void Anima(int value)
     glutTimerFunc(11,Anima, 1);
 }
 
-// Fun��o callback chamada para gerenciar eventos de teclas
-void Teclado (unsigned char key, int x, int y)
+void GerenciaTeclado(unsigned char key, int x, int y)
 {
     if (key == 27)
         exit(0);
+
+    switch (key)
+    {
+
+    case 's':
+        exibirSol = !exibirSol;
+        break;
+    case 'm':
+        exibirMercurio = !exibirMercurio;
+        break;
+    case 'v':
+        exibirVenus = !exibirVenus;
+        break;
+    case 't':
+        exibirTerra = !exibirTerra;
+        break;
+    case 'M':
+        exibirMarte = !exibirMarte;
+        break;
+    case 'j':
+        exibirJupter = !exibirJupter;
+        break;
+    case 'S':
+        exibirSaturno = !exibirSaturno;
+        break;
+    case 'u':
+        exibirUrano = !exibirUrano;
+        break;
+    case 'n':
+        exibirNeturno = !exibirNeturno;
+        break;
+
+    case 'G':
+    case 'g':// muda a cor corrente para verde
+        glColor3f(0.0f, 1.0f, 0.0f);
+        break;
+    case 'B':
+    case 'b':// muda a cor corrente para azul
+        glColor3f(0.0f, 0.0f, 1.0f);
+        break;
+    }
 }
 
 // Fun��o respons�vel por inicializar par�metros e vari�veis
@@ -387,8 +459,8 @@ int main(int argc, char *argv[])
     // Registra a fun��o callback de redimensionamento da janela de visualiza��o
     glutReshapeFunc(AlteraTamanhoJanela);
 
-    // Registra a fun��o callback para tratamento das teclas ASCII
-    glutKeyboardFunc (Teclado);
+    // Registra a função callback para tratamento das teclas ASCII
+    glutKeyboardFunc (GerenciaTeclado);
 
     // Registra a fun��o callback que ser� chamada a cada intervalo de tempo
     glutTimerFunc(150, Anima, 1);
