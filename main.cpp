@@ -24,6 +24,7 @@
 
 #include <math.h>
 #include <vector>
+#include<stdio.h>
 
 // Vari�veis que guardam a transla��o que ser� aplicada
 // sobre a casinha
@@ -31,6 +32,8 @@ GLfloat Tx;
 GLfloat Ty;
 
 GLfloat angulo;
+
+GLfloat tempTerraOrbSol = 0;
 
 GLfloat velTransMercurio;
 GLfloat velTransVenus;
@@ -56,6 +59,15 @@ GLfloat diametroSol = 5, diametroMercurio = 0.5, diametroVenus = 0.6, diametroTe
 
 // Variavel que gerencia o estado de exibir na tela ou não
 GLboolean exibirSol= true, exibirSaturno = true, exibirVenus = true, exibirMercurio = true, exibirTerra = true, exibirMarte = true, exibirJupter = true, exibirUrano = true, exibirNeturno = true;
+
+// Variavel que gerencia o estado de exibir na tela ou não as orbitas
+GLboolean exibirOrb1= true, exibirOrb2 = true, exibirOrb3 = true, exibirOrb4 = true, exibirOrb5 = true, exibirOrb6 = true, exibirOrb7 = true, exibirOrb8 = true;
+
+// Variavel que gerencia o estado de exibir a animação
+GLboolean executarAnima = true;
+
+// Variavel que gerencia o estado de exibir informações da terra
+GLboolean exibirInfoTerra = true;
 
 
 // Vari�veis que guardam os valores m�nimos de x e y da
@@ -93,6 +105,28 @@ void desenhaOrbita(double raio)
     }
     glEnd();
 }
+
+void escrevaTexto(float x,float y,float z)
+{
+    tempTerraOrbSol++;
+    char mybuff1[100];
+    sprintf (mybuff1, "%f", tempTerraOrbSol);
+    char *tempOrb [] = {mybuff1};
+    char text [] = "Tempo da terra orbitando o sol: ";
+
+    char str[80];
+    strcat(text, *tempOrb);
+    strcpy(str, text);
+
+
+     char *c;
+     glRasterPos3f(0,0,0);
+     for(c=str;*c!='\0';c++)
+     {  glColor3f(1.0,0.0,0.0);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,*c);
+     }
+}
+
 
 void desenhaSatelite(double raio)
 {
@@ -148,6 +182,41 @@ void desenhaPlaneta(double raio, double color[], int qntOrbitas, int qntSatelite
     }
 
 }
+void desenhaPlanetaTerra(double raio, double color[], int qntOrbitas, int qntSatelites, int posicao)
+{
+
+
+    float angulo, incremento;
+
+    glColor3f(color[0], color[1], color[2]);
+
+    glPointSize(4.0f);
+
+    incremento = (2 * M_PI) / 200;
+
+    glBegin(GL_POLYGON);
+    for(angulo=0; angulo<2*M_PI; angulo+=incremento)
+    {
+        glVertex2f(raio*cos(angulo),raio*sin(angulo));
+    }
+    glEnd();
+
+    //Desenha orbitas
+    for(double i =1; i <= qntOrbitas; i++)
+    {
+        double raioOrbita = raio + (i/3);
+        desenhaOrbita(raioOrbita);
+    }
+
+    for(double i =1; i <= qntSatelites; i++)
+    {
+        glPushMatrix();
+        desenhaSatelite((raio + (0.6f)) * pow(-1,i));
+        glPopMatrix();
+    }
+
+}
+
 
 void Desenha(void)
 {
@@ -157,14 +226,31 @@ void Desenha(void)
     glClear(GL_COLOR_BUFFER_BIT);
 
     float rOrb1 = 8.0f, rOrb2 = 12.0f, rOrb3 = 16.0f, rOrb4 = 20.0f, rOrb5 = 24.0f, rOrb6 = 28.0f, rOrb7 = 32.0f, rOrb8 = 36.0f;
-    desenhaOrbita(rOrb1);
-    desenhaOrbita(rOrb2);
-    desenhaOrbita(rOrb3);
-    desenhaOrbita(rOrb4);
-    desenhaOrbita(rOrb5);
-    desenhaOrbita(rOrb6);
-    desenhaOrbita(rOrb7);
-    desenhaOrbita(rOrb8);
+
+    if(exibirOrb1){
+        desenhaOrbita(rOrb1);
+    }
+    if(exibirOrb2){
+       desenhaOrbita(rOrb2);
+    }
+    if(exibirOrb3){
+       desenhaOrbita(rOrb3);
+    }
+    if(exibirOrb4){
+       desenhaOrbita(rOrb4);
+    }
+    if(exibirOrb5){
+       desenhaOrbita(rOrb5);
+    }
+    if(exibirOrb6){
+       desenhaOrbita(rOrb6);
+    }
+    if(exibirOrb7){
+       desenhaOrbita(rOrb7);
+    }
+    if(exibirOrb8){
+       desenhaOrbita(rOrb8);
+    }
 
 // Desenha Sol
     double x[] = {1.0f, 1.0f, 0.0f};
@@ -213,6 +299,10 @@ void Desenha(void)
     double x4[] = {0.0f, 112.0/255.0f, 192.0/255.0f};
     if(exibirTerra){
         desenhaPlaneta(diametroTerra, x4, 0, 1, 0);
+        glPushMatrix();
+        escrevaTexto(60.0,100.0,1.0);
+        glPopMatrix();
+
     }
 
     glPopMatrix();
@@ -333,41 +423,51 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 // Fun��o callback chamada pela GLUT a cada intervalo de tempo
 void Anima(int value)
 {
-    // Muda a dire��o quando chega na borda esquerda ou direita
-    if( (Tx+maxX) > windowXmax || (Tx+minX) < windowXmin )
-        xStep = -xStep;
+    if(executarAnima){
+        //Tempo que a terra está orbitando o sol
+        if(exibirInfoTerra){
+            glPushMatrix();
+            escrevaTexto(60.0,100.0,1.0);
+            glPopMatrix();
+        }
 
-    // Muda a dire��o quando chega na borda superior ou inferior
-    if( (Ty+maxY) > windowYmax || (Ty+minY) < windowYmin )
-        yStep = -yStep;
+        // Muda a dire��o quando chega na borda esquerda ou direita
+        if( (Tx+maxX) > windowXmax || (Tx+minX) < windowXmin )
+            xStep = -xStep;
 
-    // Move a casinha
-    Tx += xStep;
-    Ty += yStep;
+        // Muda a dire��o quando chega na borda superior ou inferior
+        if( (Ty+maxY) > windowYmax || (Ty+minY) < windowYmin )
+            yStep = -yStep;
 
-    velTransMercurio += 0.45;
-    velTransVenus += 0.35;
-    velTransTerra += 0.3;
-    velTransMarte += 0.2;
-    velTransJupter += 0.12;
-    velTransSaturno += 0.06;
-    velTransUrano += 0.03;
-    velTransNetuno += 0.01;
+        // Move a casinha
+        Tx += xStep;
+        Ty += yStep;
 
-    velRotMercurio += 0.43;
-    velRotVenus += 0.36;
-    velRotTerra += 0.65;
-    velRotMarte += 0.65;
-    velRotJupter += 0.85;
-    velRotSaturno += 0.85;
-    velRotUrano += 0.75;
-    velRotNetuno += 0.75;
+        velTransMercurio += 0.45;
+        velTransVenus += 0.35;
+        velTransTerra += 0.3;
+        velTransMarte += 0.2;
+        velTransJupter += 0.12;
+        velTransSaturno += 0.06;
+        velTransUrano += 0.03;
+        velTransNetuno += 0.01;
 
-    angulo = angulo + 0.2;
+        velRotMercurio += 0.43;
+        velRotVenus += 0.36;
+        velRotTerra += 0.65;
+        velRotMarte += 0.65;
+        velRotJupter += 0.85;
+        velRotSaturno += 0.85;
+        velRotUrano += 0.75;
+        velRotNetuno += 0.75;
 
-    // Redesenha a casinha em outra posi��o
-    glutPostRedisplay();
-    glutTimerFunc(11,Anima, 1);
+        angulo = angulo + 0.2;
+
+        // Redesenha a casinha em outra posi��o
+        glutPostRedisplay();
+        glutTimerFunc(11,Anima, 1);
+
+    }
 }
 
 void GerenciaTeclado(unsigned char key, int x, int y)
@@ -406,14 +506,41 @@ void GerenciaTeclado(unsigned char key, int x, int y)
         exibirNeturno = !exibirNeturno;
         break;
 
-    case 'G':
-    case 'g':// muda a cor corrente para verde
-        glColor3f(0.0f, 1.0f, 0.0f);
+
+    case '1':
+        exibirOrb1 = !exibirOrb1;
         break;
-    case 'B':
-    case 'b':// muda a cor corrente para azul
-        glColor3f(0.0f, 0.0f, 1.0f);
+    case '2':
+        exibirOrb2 = !exibirOrb2;
         break;
+    case '3':
+        exibirOrb3 = !exibirOrb3;
+        break;
+    case '4':
+        exibirOrb4 = !exibirOrb4;
+        break;
+    case '5':
+        exibirOrb5 = !exibirOrb5;
+        break;
+    case '6':
+        exibirOrb6 = !exibirOrb6;
+        break;
+    case '7':
+        exibirOrb7 = !exibirOrb7;
+        break;
+    case '8':
+        exibirOrb8 = !exibirOrb8;
+        break;
+
+    case 'e':
+        executarAnima = !executarAnima;
+        Anima(1);
+        break;
+
+    case 'z':
+        exibirInfoTerra = !exibirInfoTerra;
+        break;
+
     }
 }
 
