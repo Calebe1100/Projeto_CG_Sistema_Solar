@@ -253,12 +253,12 @@ void Desenha(void)
     }
 
 // Desenha Sol
-    double x[] = {1.0f, 1.0f, 0.0f};
+    double corSol[] = {1.0f, 1.0f, 0.0f};
     int qntOrbitas = 0;
     int qntSatelites = 0;
     int posicao = 0;
     if(exibirSol){
-        desenhaPlaneta(diametroSol, x, qntOrbitas, qntSatelites);
+        desenhaPlaneta(diametroSol, corSol, qntOrbitas, qntSatelites);
     }
 
 // Mercurio
@@ -268,9 +268,9 @@ void Desenha(void)
     glRotatef(velRotMercurio, 0.0f, 0.0f, 1.0f);
 
 
-    double x2[] = {0.929f, 0.49f, 0.192f};
+    double corPlanMercurio[] = {0.929f, 0.49f, 0.192f};
     if(exibirMercurio){
-        desenhaPlaneta(diametroMercurio, x2, 0, 0);
+        desenhaPlaneta(diametroMercurio, corPlanMercurio, 0, 0);
     }
 
     glPopMatrix();
@@ -282,9 +282,9 @@ void Desenha(void)
     glRotatef(velRotVenus, 0.0f, 0.0f, 1.0f);
 
 
-    double x3[] = {133.0/255.0f, 60.0/255.0f, 12.0/255.0f};
+    double corPlanVenus[] = {133.0/255.0f, 60.0/255.0f, 12.0/255.0f};
     if(exibirVenus){
-        desenhaPlaneta(diametroVenus, x3, 0, 0);
+        desenhaPlaneta(diametroVenus, corPlanVenus, 0, 0);
     }
 
     glPopMatrix();
@@ -296,9 +296,9 @@ void Desenha(void)
     glRotatef(velRotTerra, 0.0f, 0.0f, 1.0f);
 
 
-    double x4[] = {0.0f, 112.0/255.0f, 192.0/255.0f};
+    double corPlanTerra[] = {0.0f, 112.0/255.0f, 192.0/255.0f};
     if(exibirTerra){
-        desenhaPlaneta(diametroTerra, x4, 0, 1);
+        desenhaPlaneta(diametroTerra, corPlanTerra, 0, 1);
         glPushMatrix();
         escrevaTexto(60.0,100.0,1.0);
         glPopMatrix();
@@ -314,9 +314,9 @@ void Desenha(void)
     glRotatef(velRotMarte, 0.0f, 0.0f, 1.0f);
 
 
-    double x5[] = {1.0f, 0.0f, 0.0f};
+    double corPlanMarte[] = {1.0f, 0.0f, 0.0f};
     if(exibirMarte){
-         desenhaPlaneta(0.5, x5, 0, 2);
+         desenhaPlaneta(0.5, corPlanMarte, 0, 2);
     }
 
     glPopMatrix();
@@ -328,9 +328,9 @@ void Desenha(void)
     glRotatef(velRotJupter, 0.0f, 0.0f, 1.0f);
 
 
-    double x6[] = {1.0f, 192.0/255.0f, 0.0f};
+    double corPlanJupter[] = {1.0f, 192.0/255.0f, 0.0f};
     if(exibirJupter){
-        desenhaPlaneta(diametroJupiter, x6, 1, 1);
+        desenhaPlaneta(diametroJupiter, corPlanJupter, 1, 1);
     }
 
     glPopMatrix();
@@ -342,9 +342,9 @@ void Desenha(void)
     glRotatef(velRotSaturno, 0.0f, 0.0f, 1.0f);
 
 
-    double x7[] = {191.0/255.0f, 144.0/255.0f, 0.0f};
+    double corPlanSaturno[] = {191.0/255.0f, 144.0/255.0f, 0.0f};
     if(exibirSaturno){
-        desenhaPlaneta(diametroSaturno, x7, 4, 1);
+        desenhaPlaneta(diametroSaturno, corPlanSaturno, 4, 1);
     }
     glPopMatrix();
 
@@ -356,9 +356,9 @@ void Desenha(void)
     glRotatef(velRotUrano, 0.0f, 0.0f, 1.0f);
 
 
-    double x8[] = {84.0/255.0f, 130.0/255.0f, 53.0/255.0f};
+    double corPlanUrano[] = {84.0/255.0f, 130.0/255.0f, 53.0/255.0f};
     if(exibirUrano){
-        desenhaPlaneta(diametroUrano, x8, 2, 1);
+        desenhaPlaneta(diametroUrano, corPlanUrano, 2, 1);
     }
 
     glPopMatrix();
@@ -370,9 +370,9 @@ void Desenha(void)
     glRotatef(velRotNetuno, 0.0f, 0.0f, 1.0f);
 
 
-    double x9[] = {180.0/255.0f, 199.0/255.0f, 231.0/255.0f};
+    double corPlanNetuno[] = {180.0/255.0f, 199.0/255.0f, 231.0/255.0f};
     if(exibirNeturno){
-        desenhaPlaneta(diametroNeturno, x9, 1, 2);
+        desenhaPlaneta(diametroNeturno, corPlanNetuno, 1, 2);
     }
 
     glPopMatrix();
@@ -572,10 +572,10 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 
     // Especifica a posi��o inicial da janela GLUT
-    glutInitWindowPosition(5,5);
+    glutInitWindowPosition(300,0);
 
     // Especifica o tamanho inicial em pixels da janela GLUT
-    glutInitWindowSize(1800,900);
+    glutInitWindowSize(900,700);
 
     // Cria a janela passando como argumento o t�tulo da mesma
     glutCreateWindow("Sistema Solar");
