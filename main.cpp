@@ -148,7 +148,7 @@ void desenhaSatelite(double raio)
     glEnd();
 }
 
-void desenhaPlaneta(double raio, double color[], int qntOrbitas, int qntSatelites, int posicao)
+void desenhaPlaneta(double raio, double color[], int qntOrbitas, int qntSatelites)
 {
 
 
@@ -258,7 +258,7 @@ void Desenha(void)
     int qntSatelites = 0;
     int posicao = 0;
     if(exibirSol){
-        desenhaPlaneta(diametroSol, x, qntOrbitas, qntSatelites, posicao);
+        desenhaPlaneta(diametroSol, x, qntOrbitas, qntSatelites);
     }
 
 // Mercurio
@@ -270,7 +270,7 @@ void Desenha(void)
 
     double x2[] = {0.929f, 0.49f, 0.192f};
     if(exibirMercurio){
-        desenhaPlaneta(diametroMercurio, x2, 0, 0, 0);
+        desenhaPlaneta(diametroMercurio, x2, 0, 0);
     }
 
     glPopMatrix();
@@ -284,7 +284,7 @@ void Desenha(void)
 
     double x3[] = {133.0/255.0f, 60.0/255.0f, 12.0/255.0f};
     if(exibirVenus){
-        desenhaPlaneta(diametroVenus, x3, 0, 0, 0);
+        desenhaPlaneta(diametroVenus, x3, 0, 0);
     }
 
     glPopMatrix();
@@ -298,7 +298,7 @@ void Desenha(void)
 
     double x4[] = {0.0f, 112.0/255.0f, 192.0/255.0f};
     if(exibirTerra){
-        desenhaPlaneta(diametroTerra, x4, 0, 1, 0);
+        desenhaPlaneta(diametroTerra, x4, 0, 1);
         glPushMatrix();
         escrevaTexto(60.0,100.0,1.0);
         glPopMatrix();
@@ -316,7 +316,7 @@ void Desenha(void)
 
     double x5[] = {1.0f, 0.0f, 0.0f};
     if(exibirMarte){
-         desenhaPlaneta(0.5, x5, 0, 2, 0);
+         desenhaPlaneta(0.5, x5, 0, 2);
     }
 
     glPopMatrix();
@@ -330,7 +330,7 @@ void Desenha(void)
 
     double x6[] = {1.0f, 192.0/255.0f, 0.0f};
     if(exibirJupter){
-        desenhaPlaneta(diametroJupiter, x6, 1, 1, 0);
+        desenhaPlaneta(diametroJupiter, x6, 1, 1);
     }
 
     glPopMatrix();
@@ -344,7 +344,7 @@ void Desenha(void)
 
     double x7[] = {191.0/255.0f, 144.0/255.0f, 0.0f};
     if(exibirSaturno){
-        desenhaPlaneta(diametroSaturno, x7, 4, 1, 0);
+        desenhaPlaneta(diametroSaturno, x7, 4, 1);
     }
     glPopMatrix();
 
@@ -358,7 +358,7 @@ void Desenha(void)
 
     double x8[] = {84.0/255.0f, 130.0/255.0f, 53.0/255.0f};
     if(exibirUrano){
-        desenhaPlaneta(diametroUrano, x8, 2, 1, 0);
+        desenhaPlaneta(diametroUrano, x8, 2, 1);
     }
 
     glPopMatrix();
@@ -372,7 +372,7 @@ void Desenha(void)
 
     double x9[] = {180.0/255.0f, 199.0/255.0f, 231.0/255.0f};
     if(exibirNeturno){
-        desenhaPlaneta(diametroNeturno, x9, 1, 2, 0);
+        desenhaPlaneta(diametroNeturno, x9, 1, 2);
     }
 
     glPopMatrix();
