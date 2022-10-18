@@ -26,14 +26,10 @@
 #include <vector>
 #include<stdio.h>
 
-// Vari�veis que guardam a transla��o que ser� aplicada
-// sobre a casinha
-GLfloat Tx;
-GLfloat Ty;
-
-GLfloat angulo;
 
 GLfloat tempTerraOrbSol = 0;
+
+GLint DOIS_PI = 6;
 
 GLfloat velTransMercurio;
 GLfloat velTransVenus;
@@ -69,23 +65,10 @@ GLboolean executarAnima = true;
 // Variavel que gerencia o estado de exibir informações da terra
 GLboolean exibirInfoTerra = true;
 
-
-// Vari�veis que guardam os valores m�nimos de x e y da
-// casinha
-GLfloat minX, maxX;
-GLfloat minY, maxY;
-
-// Vari�veis que guardam o tamanho do incremento nas
-// dire��es x e y (n�mero de pixels para se mover a
-// cada intervalo de tempo)
-GLfloat xStep;
-GLfloat yStep;
-
 // Vari�veis que guardam a largura e altura da janela
 GLfloat windowXmin, windowXmax;
 GLfloat windowYmin, windowYmax;
 
-// Fun��o callback de redesenho da janela de visualiza��o
 
 void desenhaOrbita(double raio)
 {
@@ -106,9 +89,8 @@ void desenhaOrbita(double raio)
     glEnd();
 }
 
-void escrevaTexto(float x,float y,float z)
+void escrevaTexto()
 {
-    tempTerraOrbSol++;
     char mybuff1[100];
     sprintf (mybuff1, "%f", tempTerraOrbSol);
     char *tempOrb [] = {mybuff1};
@@ -174,6 +156,7 @@ void desenhaPlaneta(double raio, double color[], int qntOrbitas, int qntSatelite
         desenhaOrbita(raioOrbita);
     }
 
+    //Desenha Satélites
     for(double i =1; i <= qntSatelites; i++)
     {
         glPushMatrix();
@@ -182,41 +165,6 @@ void desenhaPlaneta(double raio, double color[], int qntOrbitas, int qntSatelite
     }
 
 }
-void desenhaPlanetaTerra(double raio, double color[], int qntOrbitas, int qntSatelites, int posicao)
-{
-
-
-    float angulo, incremento;
-
-    glColor3f(color[0], color[1], color[2]);
-
-    glPointSize(4.0f);
-
-    incremento = (2 * M_PI) / 200;
-
-    glBegin(GL_POLYGON);
-    for(angulo=0; angulo<2*M_PI; angulo+=incremento)
-    {
-        glVertex2f(raio*cos(angulo),raio*sin(angulo));
-    }
-    glEnd();
-
-    //Desenha orbitas
-    for(double i =1; i <= qntOrbitas; i++)
-    {
-        double raioOrbita = raio + (i/3);
-        desenhaOrbita(raioOrbita);
-    }
-
-    for(double i =1; i <= qntSatelites; i++)
-    {
-        glPushMatrix();
-        desenhaSatelite((raio + (0.6f)) * pow(-1,i));
-        glPopMatrix();
-    }
-
-}
-
 
 void Desenha(void)
 {
@@ -299,10 +247,6 @@ void Desenha(void)
     double corPlanTerra[] = {0.0f, 112.0/255.0f, 192.0/255.0f};
     if(exibirTerra){
         desenhaPlaneta(diametroTerra, corPlanTerra, 0, 1);
-        glPushMatrix();
-        escrevaTexto(60.0,100.0,1.0);
-        glPopMatrix();
-
     }
 
     glPopMatrix();
@@ -427,25 +371,16 @@ void Anima(int value)
         //Tempo que a terra está orbitando o sol
         if(exibirInfoTerra){
             glPushMatrix();
-            escrevaTexto(60.0,100.0,1.0);
+            escrevaTexto();
             glPopMatrix();
         }
-
-        // Muda a dire��o quando chega na borda esquerda ou direita
-        if( (Tx+maxX) > windowXmax || (Tx+minX) < windowXmin )
-            xStep = -xStep;
-
-        // Muda a dire��o quando chega na borda superior ou inferior
-        if( (Ty+maxY) > windowYmax || (Ty+minY) < windowYmin )
-            yStep = -yStep;
-
-        // Move a casinha
-        Tx += xStep;
-        Ty += yStep;
 
         velTransMercurio += 0.45;
         velTransVenus += 0.35;
         velTransTerra += 0.3;
+        if(velTransTerra % DOIS_PI == 0.0){
+            tempTerraOrbSol++;
+        }
         velTransMarte += 0.2;
         velTransJupter += 0.12;
         velTransSaturno += 0.06;
@@ -461,9 +396,6 @@ void Anima(int value)
         velRotUrano += 0.75;
         velRotNetuno += 0.75;
 
-        angulo = angulo + 0.2;
-
-        // Redesenha a casinha em outra posi��o
         glutPostRedisplay();
         glutTimerFunc(11,Anima, 1);
 
@@ -547,16 +479,10 @@ void GerenciaTeclado(unsigned char key, int x, int y)
 // Fun��o respons�vel por inicializar par�metros e vari�veis
 void Inicializa (void)
 {
-    // Define a cor de fundo da janela de visualiza��o como branca
+    // Define a cor de fundo da janela de visualiza��o como preto
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     // Inicializa��o das vari�veis globais
-    xStep = yStep = 1.0f;
-    Tx = Ty = 0.0f;
-    minX = -15.0f;
-    maxX =  15.0f;
-    minY = -15.0f;
-    maxY =  17.0f;
     windowXmin = windowYmin = -40.0f;
     windowXmax = windowYmax = 40.0f;
 }
