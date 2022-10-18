@@ -30,6 +30,7 @@
 GLfloat tempTerraOrbSol = 0;
 
 GLint DOIS_PI = 6.28;
+GLfloat contaVolta = 1;
 
 GLfloat velTransMercurio;
 GLfloat velTransVenus;
@@ -92,12 +93,12 @@ void desenhaOrbita(double raio)
 void escrevaTexto()
 {
     char mybuff1[100];
-    sprintf (mybuff1, "%f", tempTerraOrbSol);
+    sprintf (mybuff1, "%.0f", tempTerraOrbSol);
     char *tempOrb [] = {mybuff1};
-    char text [] = "Tempo da terra orbitando o sol: ";
-
+    char text [] = "Anos decorridos: ";
     char str[80];
-    strcat(text, *tempOrb);
+
+    strcat( text, *tempOrb);
     strcpy(str, text);
 
 
@@ -247,6 +248,10 @@ void Desenha(void)
     double corPlanTerra[] = {0.0f, 112.0/255.0f, 192.0/255.0f};
     if(exibirTerra){
         desenhaPlaneta(diametroTerra, corPlanTerra, 0, 1);
+        glPushMatrix();
+        escrevaTexto();
+        glPopMatrix();
+
     }
 
     glPopMatrix();
@@ -393,18 +398,14 @@ void Anima(int value)
 {
     if(executarAnima){
         //Tempo que a terra está orbitando o sol
-        if(exibirInfoTerra){
-            glPushMatrix();
-            escrevaTexto();
-            glPopMatrix();
-        }
 
         velTransMercurio += 0.45;
         velTransVenus += 0.35;
         velTransTerra += 0.3;
-        if(findMod(velTransTerra, DOIS_PI) == 0.0){
-            tempTerraOrbSol++;
-        }
+		if(velTransTerra > contaVolta * 360){
+			tempTerraOrbSol++;
+			contaVolta++;
+		}
         velTransMarte += 0.2;
         velTransJupter += 0.12;
         velTransSaturno += 0.06;
