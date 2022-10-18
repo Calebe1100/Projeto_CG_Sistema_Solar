@@ -29,7 +29,7 @@
 
 GLfloat tempTerraOrbSol = 0;
 
-GLint DOIS_PI = 6.28;
+GLint DOIS_PI = 360;
 GLfloat contaVolta = 1;
 
 GLfloat velTransMercurio;
@@ -402,7 +402,7 @@ void Anima(int value)
         velTransMercurio += 0.45;
         velTransVenus += 0.35;
         velTransTerra += 0.3;
-		if(velTransTerra > contaVolta * 360){
+		if(velTransTerra > contaVolta * DOIS_PI){
 			tempTerraOrbSol++;
 			contaVolta++;
 		}
