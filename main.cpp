@@ -391,8 +391,6 @@ double findMod(double a, double b)
 // Fun��o callback chamada pela GLUT a cada intervalo de tempo
 void Anima(int value)
 {
-                escrevaTexto();
-
     if(executarAnima){
         //Tempo que a terra está orbitando o sol
         if(exibirInfoTerra){
