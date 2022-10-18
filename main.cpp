@@ -29,7 +29,7 @@
 
 GLfloat tempTerraOrbSol = 0;
 
-GLint DOIS_PI = 6;
+GLint DOIS_PI = 6.28;
 
 GLfloat velTransMercurio;
 GLfloat velTransVenus;
@@ -364,9 +364,35 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
     }
 }
 
+double findMod(double a, double b)
+{
+    double mod;
+    // Handling negative values
+    if (a < 0)
+        mod = -a;
+    else
+        mod =  a;
+    if (b < 0)
+        b = -b;
+
+    // Finding mod by repeated subtraction
+
+    while (mod >= b)
+        mod = mod - b;
+
+    // Sign of result typically depends
+    // on sign of a.
+    if (a < 0)
+        return -mod;
+
+    return mod;
+}
+
 // Fun��o callback chamada pela GLUT a cada intervalo de tempo
 void Anima(int value)
 {
+                escrevaTexto();
+
     if(executarAnima){
         //Tempo que a terra está orbitando o sol
         if(exibirInfoTerra){
@@ -378,7 +404,7 @@ void Anima(int value)
         velTransMercurio += 0.45;
         velTransVenus += 0.35;
         velTransTerra += 0.3;
-        if(velTransTerra % DOIS_PI == 0.0){
+        if(findMod(velTransTerra, DOIS_PI) == 0.0){
             tempTerraOrbSol++;
         }
         velTransMarte += 0.2;
